@@ -68,6 +68,7 @@ const config = {
           '900': '#293e51',
           '950': '#1b2836',
         },
+        'brand-border': '#E2E8F0'
       },
       borderRadius: {
         lg: "var(--radius)",

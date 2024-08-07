@@ -1,0 +1,21 @@
+{
+	"organizeImports": {
+		"enabled": true
+	},
+	"formatter": {
+    "enabled": true,
+    "indentStyle": "tab",
+    "lineWidth": 80
+  },
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "single",
+			"trailingCommas": "all",
+			"semicolons": "asNeeded"
+		}
+	},
+  "linter": {
+    "enabled": false
+  }
+}
