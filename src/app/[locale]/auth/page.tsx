@@ -1,12 +1,12 @@
+import TranslationsProvider from '@/components/Providers/TranslationsProvider'
+import { TranslatorButton } from '@/components/TranslatorButton'
+import { SignInForm } from '@/components/auth/SignInForm'
+import initTranslations from '@/lib/i18n'
+import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import meela from '../../../../public/login/Meela-Pantalones.svg'
 import waiting from '../../../../public/login/Waiting.svg'
-import Image from 'next/image'
-import Link from 'next/link'
-import initTranslations from '@/lib/i18n'
-import TranslationsProvider from '@/components/Providers/TranslationsProvider'
-import { SignInForm } from '@/components/auth/SignInForm'
-import { TranslatorButton } from '@/components/TranslatorButton'
 
 const i18nNamespaces = ['auth', 'auth-form']
 
