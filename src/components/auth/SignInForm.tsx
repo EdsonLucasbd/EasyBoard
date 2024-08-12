@@ -19,6 +19,12 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+	signInWithEmail,
+	signInWithFacebook,
+	signInWithGoogle,
+} from '@/lib/firebase/configs'
+import { SocialAuthButton } from '../SocialAuthButton'
 
 const formSchema = z.object({
 	email: z.string().min(1, { message: 'Email is required.' }).email({
@@ -41,6 +47,7 @@ export function SignInForm() {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values)
+		signInWithEmail(values.email, values.password)
 	}
 
 	return (
@@ -99,9 +106,9 @@ export function SignInForm() {
 				<p>{t('auth-form:or')}</p>
 
 				<div className='flex items-center justify-between w-full gap-5'>
-					<Button
-						variant='outline'
-						className='bg-brand-100 text-brand-500 gap-5 w-full h-[55px] border-none'
+					<SocialAuthButton
+						signInMethod={signInWithGoogle}
+						className='bg-brand-100 text-brand-500 gap-5 w-full h-[55px] ring-0'
 					>
 						<Image
 							src='/login/google-icon.svg'
@@ -111,13 +118,10 @@ export function SignInForm() {
 							aria-hidden
 						/>
 						{t('auth-form:with_google')}
-					</Button>
+					</SocialAuthButton>
 
 					<div className='flex gap-[13px]'>
-						<Button
-							variant='outline'
-							className='bg-brand-50 w-[60px] h-[55px] border-none ring-1 ring-inset ring-brand-border'
-						>
+						<SocialAuthButton signInMethod={signInWithFacebook}>
 							<Image
 								src='/login/facebook-icon.svg'
 								width={29}
@@ -125,7 +129,7 @@ export function SignInForm() {
 								alt=''
 								aria-hidden
 							/>
-						</Button>
+						</SocialAuthButton>
 						<Button
 							variant='outline'
 							className='bg-brand-50 w-[60px] h-[55px] border-none ring-1 ring-inset ring-brand-border'

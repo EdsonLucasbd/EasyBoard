@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/context/authContext'
 import { i18nConfig } from '@/lib/i18n/i18nConfig'
 import { dir } from 'i18next'
 
@@ -29,9 +30,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang={locale} dir={dir(locale)}>
-			<body className={`${inter.className} ${plusJakarta.variable}`}>
-				{children}
-			</body>
+			<AuthProvider>
+				<body className={`${inter.className} ${plusJakarta.variable}`}>
+					{children}
+				</body>
+			</AuthProvider>
 		</html>
 	)
 }
