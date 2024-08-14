@@ -1,10 +1,10 @@
 'use client'
-import { Button } from './ui/button'
-import { Languages } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { useTranslation } from 'react-i18next'
-import { usePathname, useRouter } from 'next/navigation'
 import { i18nConfig } from '@/lib/i18n/i18nConfig'
+import { cn } from '@/lib/utils'
+import { Languages } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
+import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 export const TranslatorButton = ({ className }: { className?: string }) => {

@@ -1,12 +1,10 @@
-import React from 'react'
-import meela from '../../../../public/login/Meela-Pantalones.svg'
-import waiting from '../../../../public/login/Waiting.svg'
+import TranslationsProvider from '@/components/Providers/TranslationsProvider'
+import { TranslatorButton } from '@/components/TranslatorButton'
+import { SignInForm } from '@/components/auth/SignInForm'
+import initTranslations from '@/lib/i18n'
 import Image from 'next/image'
 import Link from 'next/link'
-import initTranslations from '@/lib/i18n'
-import TranslationsProvider from '@/components/Providers/TranslationsProvider'
-import { SignInForm } from '@/components/auth/SignInForm'
-import { TranslatorButton } from '@/components/TranslatorButton'
+import React from 'react'
 
 const i18nNamespaces = ['auth', 'auth-form']
 
@@ -27,7 +25,7 @@ export default async function Login({
 			<div className='flex min-h-screen items-center justify-center bg-brand-50'>
 				<TranslatorButton />
 				<Image
-					src={meela}
+					src={'/login/Meela-Pantalones.svg'}
 					alt=''
 					aria-hidden
 					width={452}
@@ -61,7 +59,7 @@ export default async function Login({
 					</div>
 				</div>
 				<Image
-					src={waiting}
+					src={'/login/Waiting.svg'}
 					alt=''
 					aria-hidden
 					width={439}
