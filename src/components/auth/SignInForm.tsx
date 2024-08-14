@@ -52,6 +52,49 @@ export function SignInForm() {
 
 	return (
 		<>
+			<div className='flex lg:hidden items-center justify-between w-full gap-5 mt-[61px] mb-[52px]'>
+				<SocialAuthButton
+					signInMethod={signInWithGoogle}
+					className='bg-brand-100 text-brand-500 gap-3 px-[17px] text-xs w-[180.24px] h-[55px] ring-0'
+				>
+					<Image
+						src='/login/google-icon.svg'
+						width={20}
+						height={20}
+						alt=''
+						aria-hidden
+					/>
+					{t('auth-form:with_google')}
+				</SocialAuthButton>
+
+				<div className='flex gap-[13px]'>
+					<SocialAuthButton
+						signInMethod={signInWithFacebook}
+						className='w-[36.29px] px-2'
+					>
+						<Image
+							src='/login/facebook-icon.svg'
+							width={29}
+							height={29}
+							alt=''
+							aria-hidden
+						/>
+					</SocialAuthButton>
+					<Button
+						variant='outline'
+						className='bg-brand-50 w-[36.29px] h-[55px] border-none ring-1 ring-inset ring-brand-border px-2 py-0'
+					>
+						<Image
+							src='/login/apple-icon.svg'
+							width={29}
+							height={29}
+							alt=''
+							aria-hidden
+						/>
+					</Button>
+				</div>
+			</div>
+
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
@@ -102,7 +145,7 @@ export function SignInForm() {
 				</form>
 			</Form>
 
-			<div className='flex flex-col w-full items-center gap-[33px] mt-[33px]'>
+			<div className='hidden lg:flex flex-col w-full items-center gap-[33px] mt-[33px]'>
 				<p>{t('auth-form:or')}</p>
 
 				<div className='flex items-center justify-between w-full gap-5'>
