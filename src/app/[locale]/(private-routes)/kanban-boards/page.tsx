@@ -1,15 +1,11 @@
-'use client'
-
-import { Button } from '@/components/ui/button'
-import { signOutUser } from '@/lib/firebase/configs'
+import TranslationsProvider from '@/components/Providers/TranslationsProvider'
+import initTranslations from '@/lib/i18n'
 import React from 'react'
 
-type Props = {}
+// const i18nNamespaces = ['menu', 'header', 'status', 'tags']
 
-export default function Home(props: Props) {
-	return (
-		<div>
-			<Button onClick={signOutUser}>sair</Button>
-		</div>
-	)
+export default async function Home({
+	params: { locale },
+}: { params: { locale: string } }) {
+	return <div className='flex flex-1'>Home</div>
 }
