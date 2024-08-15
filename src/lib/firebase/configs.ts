@@ -7,6 +7,7 @@ import {
 	getAuth,
 	signInWithEmailAndPassword,
 	signInWithPopup,
+	signOut,
 } from 'firebase/auth'
 
 export const firebaseApp =
@@ -24,7 +25,13 @@ export const emailAuthProvider = new EmailAuthProvider()
 
 export async function signInWithGoogle() {
 	try {
-		return await signInWithPopup(auth, googleAuthProvider)
+		const result = await signInWithPopup(auth, googleAuthProvider)
+		const token = await result.user.getIdToken()
+
+		document.cookie = `authToken=${token}; path=/;`
+		window.location.href = '/kanban-boards'
+
+		return result
 	} catch (error) {
 		console.error('Error signing in with Google', error)
 	}
@@ -32,7 +39,13 @@ export async function signInWithGoogle() {
 
 export async function signInWithFacebook() {
 	try {
-		return await signInWithPopup(auth, facebookAuthProvider)
+		const result = await signInWithPopup(auth, facebookAuthProvider)
+		const token = await result.user.getIdToken()
+
+		document.cookie = `authToken=${token}; path=/;`
+		window.location.href = '/kanban-boards'
+
+		return result
 	} catch (error) {
 		console.error('Error signing in with Facebook', error)
 	}
@@ -47,7 +60,11 @@ export async function signInWithEmail(email: string, password: string) {
 		)
 		const user = userCredential.user
 		console.log('Usuário logado com sucesso:', user)
-		// Aqui você pode realizar ações após o login, como redirecionar o usuário
+
+		const token = await user.getIdToken()
+
+		document.cookie = `authToken=${token}; path=/;`
+		window.location.href = '/kanban-boards'
 	} catch (error: unknown) {
 		console.error('Error signing in with Email and Password', error)
 	}
@@ -63,16 +80,22 @@ export async function createUser(email: string, password: string) {
 		const user = userCredential.user
 
 		console.log('Usuário criado com sucesso:', user)
-		// Aqui você pode realizar ações após o cadastro, como enviar um email de verificação
+
+		window.location.href = '/auth'
 	} catch (error) {
 		console.error('Erro create user', error)
 	}
 }
 
-export async function signOut() {
+export async function signOutUser() {
 	try {
-		return auth.signOut()
+		await signOut(auth)
+
+		document.cookie =
+			'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;'
+
+		window.location.href = '/auth'
 	} catch (error) {
-		console.error('Error signing out', error)
+		console.error('Erro ao deslogar o usuário:', error)
 	}
 }
