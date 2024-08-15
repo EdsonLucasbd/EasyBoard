@@ -1,6 +1,5 @@
 import { i18nRouter } from 'next-i18n-router'
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from './lib/firebase/configs'
 import { i18nConfig } from './lib/i18n/i18nConfig'
 
 export function middleware(request: NextRequest) {
@@ -10,12 +9,13 @@ export function middleware(request: NextRequest) {
 	const signInURL = new URL('/auth', request.url)
 	const currentPath = request.nextUrl.pathname
 
-	const user = auth.currentUser
+	const token = request.cookies.get('authToken')?.value
 
-	if (!user && !publicRoutes.some((route) => currentPath.startsWith(route))) {
-		if (!currentPath.includes(`/auth`)) {
-			return NextResponse.redirect(signInURL)
-		}
+	if (!token && !publicRoutes.some((route) => currentPath.startsWith(route))) {
+		return NextResponse.redirect(signInURL)
+	} else if (token && currentPath.includes(`/auth`)) {
+		const kanbanBoardsURL = new URL('/kanban-boards', request.url)
+		return NextResponse.redirect(kanbanBoardsURL)
 	}
 
 	return response
