@@ -23,7 +23,7 @@ export default function KanbanBoardLayout({
 	return (
 		<html lang={locale} dir={dir(locale)}>
 			<body>
-				<div className='flex gap-1'>
+				<div className='flex flex-col lg:flex-row gap-1'>
 					<Menu locale={locale} />
 					{children}
 				</div>

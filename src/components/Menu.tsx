@@ -3,7 +3,16 @@
 import { useMenu } from '@/hooks/useMenu'
 import { auth, signOutUser } from '@/lib/firebase/configs'
 import { useTranslation } from '@/lib/i18n/client'
-import { KanbanSquare, LogOut, Logs, Settings, Users2 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import {
+	ArrowRightCircle,
+	KanbanSquare,
+	LogOut,
+	Logs,
+	Settings,
+	Users2,
+	X,
+} from 'lucide-react'
 import Image from 'next/image'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -57,16 +66,36 @@ export const Menu = ({ locale }: { locale: string }) => {
           border-r border-brand-border'
 				>
 					<div className='flex flex-col flex-1 overflow-y-auto overflow-x-hidden gap-8'>
-						<div className='flex items-center gap-2'>
-							<Image
-								src='/logo.webp'
-								alt=''
-								aria-hidden
-								width={50}
-								height={50}
-								className='size-9 flex-shrink-0'
-							/>
-							<h2>EasyBoard</h2>
+						<div className='flex items-center justify-between'>
+							<motion.div
+								className='flex items-center gap-2'
+								animate={{
+									display: true
+										? open
+											? 'inline-flex'
+											: 'none'
+										: 'inline-block',
+									opacity: open ? 1 : 0,
+								}}
+							>
+								<Image
+									src='/logo.webp'
+									alt=''
+									aria-hidden
+									width={50}
+									height={50}
+									className='size-9'
+								/>
+								<h2>EasyBoard</h2>
+							</motion.div>
+
+							<Button
+								variant='ghost'
+								onClick={() => setOpen(!open)}
+								className='hover:bg-transparent'
+							>
+								{open ? <X /> : <ArrowRightCircle />}
+							</Button>
 						</div>
 
 						<Input
