@@ -20,7 +20,6 @@ export const SocialAuthButton = ({
 		try {
 			const userCredentials = await signInMethod()
 			const accessToken = await userCredentials?.user.getIdToken()
-			console.log(accessToken)
 		} catch (error: unknown) {
 			console.error(error)
 		}
