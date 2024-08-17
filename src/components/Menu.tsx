@@ -103,7 +103,6 @@ export const Menu = ({ locale }: { locale: string }) => {
 								{open ? <X /> : <ArrowRightCircle />}
 							</Button>
 						</div>
-
 						<Input
 							type='text'
 							name='search'
