@@ -1,3 +1,4 @@
+import { collection, doc, setDoc } from '@firebase/firestore'
 import { getApp, getApps, initializeApp } from 'firebase/app'
 import {
 	EmailAuthProvider,
@@ -9,6 +10,7 @@ import {
 	signInWithPopup,
 	signOut,
 } from 'firebase/auth'
+import db from './firestore'
 
 export const firebaseApp =
 	getApps().length > 0
@@ -22,6 +24,19 @@ export const auth = getAuth(firebaseApp)
 export const googleAuthProvider = new GoogleAuthProvider()
 export const facebookAuthProvider = new FacebookAuthProvider()
 export const emailAuthProvider = new EmailAuthProvider()
+
+export async function createStorage(name: string, id: string) {
+	try {
+		const docRef = doc(collection(db, 'boards'), name)
+		await setDoc(docRef, {
+			'default-board': id,
+		})
+
+		console.log('Document written with ID: ', docRef.id)
+	} catch (error) {
+		console.error('Error adding document: ', error)
+	}
+}
 
 export async function signInWithGoogle() {
 	try {

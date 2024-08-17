@@ -23,7 +23,7 @@ import {
 	signInWithEmail,
 	signInWithFacebook,
 	signInWithGoogle,
-} from '@/lib/firebase/configs'
+} from '@/lib/firebase/authConfigs'
 import { SocialAuthButton } from '../SocialAuthButton'
 
 const formSchema = z.object({
@@ -46,7 +46,6 @@ export function SignInForm() {
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
 		signInWithEmail(values.email, values.password)
 	}
 
