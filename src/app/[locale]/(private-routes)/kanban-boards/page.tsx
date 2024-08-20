@@ -7,5 +7,5 @@ import React from 'react'
 export default async function Home({
 	params: { locale },
 }: { params: { locale: string } }) {
-	return <div className='flex flex-1'>Home</div>
+	return <div className='flex w-full'>Home</div>
 }

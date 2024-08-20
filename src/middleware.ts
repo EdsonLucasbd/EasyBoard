@@ -11,6 +11,10 @@ export function middleware(request: NextRequest) {
 
 	const token = request.cookies.get('authToken')?.value
 
+	if (currentPath === '/') {
+		return NextResponse.redirect(signInURL)
+	}
+
 	if (!token && !publicRoutes.some((route) => currentPath.startsWith(route))) {
 		return NextResponse.redirect(signInURL)
 	} else if (token && currentPath.includes(`/auth`)) {
