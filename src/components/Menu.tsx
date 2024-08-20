@@ -1,7 +1,7 @@
 'use client'
 
 import { useMenu } from '@/hooks/useMenu'
-import { auth, createStorage, signOutUser } from '@/lib/firebase/authConfigs'
+import { signOutUser } from '@/lib/firebase/authConfigs'
 import { useTranslation } from '@/lib/i18n/client'
 import { useAuthStore } from '@/store/auth'
 import { motion } from 'framer-motion'
@@ -15,7 +15,6 @@ import {
 	X,
 } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Sidebar, SidebarBody, SidebarLink } from './ui/sidebar'
@@ -24,11 +23,6 @@ export const Menu = ({ locale }: { locale: string }) => {
 	const { open, setOpen } = useMenu()
 	const { t } = useTranslation(locale, 'menu')
 	const user = useAuthStore((state) => state.user)
-
-	createStorage(
-		user?.displayName?.replaceAll(' ', '-') ?? 'default-board',
-		user?.uid ?? '',
-	)
 
 	const links = [
 		{
@@ -64,7 +58,7 @@ export const Menu = ({ locale }: { locale: string }) => {
 	return (
 		<div
 			className='flex flex-col bg-white 
-      dark:bg-neutral-800 w-[300px] flex-1 mx-auto overflow-hidden h-screen'
+      dark:bg-neutral-800 mx-auto overflow-hidden h-screen'
 		>
 			<Sidebar open={open} setOpen={setOpen}>
 				<SidebarBody

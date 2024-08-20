@@ -11,6 +11,7 @@ import {
 	signOut,
 } from 'firebase/auth'
 import db from './firestore'
+import { createUserWithBoard } from './userManagement'
 
 export const firebaseApp =
 	getApps().length > 0
@@ -25,19 +26,6 @@ export const googleAuthProvider = new GoogleAuthProvider()
 export const facebookAuthProvider = new FacebookAuthProvider()
 export const emailAuthProvider = new EmailAuthProvider()
 
-export async function createStorage(name: string, id: string) {
-	try {
-		const docRef = doc(collection(db, 'boards'), name)
-		await setDoc(docRef, {
-			'default-board': id,
-		})
-
-		console.log('Document written with ID: ', docRef.id)
-	} catch (error) {
-		console.error('Error adding document: ', error)
-	}
-}
-
 export async function signInWithGoogle() {
 	try {
 		const result = await signInWithPopup(auth, googleAuthProvider)
@@ -45,6 +33,11 @@ export async function signInWithGoogle() {
 
 		document.cookie = `authToken=${token}; path=/;`
 		window.location.href = '/kanban-boards'
+
+		createUserWithBoard(result.user.uid, {
+			name: result.user.displayName || '',
+			email: result.user.email || '',
+		})
 
 		return result
 	} catch (error) {
