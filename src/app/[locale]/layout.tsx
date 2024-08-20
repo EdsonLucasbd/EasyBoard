@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import { i18nConfig } from '@/lib/i18n/i18nConfig'
 import { dir } from 'i18next'
 
-const inter = Inter({ subsets: ['latin'] })
 const plusJakarta = Plus_Jakarta_Sans({
 	subsets: ['latin'],
 	weight: ['400', '500', '700', '800'],
@@ -29,9 +28,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang={locale} dir={dir(locale)}>
-			<body className={`${inter.className} ${plusJakarta.variable}`}>
-				{children}
-			</body>
+			<body className={`${plusJakarta.className}`}>{children}</body>
 		</html>
 	)
 }

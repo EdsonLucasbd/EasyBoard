@@ -10,6 +10,7 @@ import {
 	KanbanSquare,
 	LogOut,
 	Logs,
+	SearchIcon,
 	Settings,
 	Users2,
 	X,
@@ -97,45 +98,62 @@ export const Menu = ({ locale }: { locale: string }) => {
 								{open ? <X /> : <ArrowRightCircle />}
 							</Button>
 						</div>
-						<Input
-							type='text'
-							name='search'
-							id='search'
-							placeholder={t('menu:search')}
-							className='rounded-full'
-						/>
 
-						<div className='flex flex-col gap-2'>
+						<div className='relative'>
+							<SearchIcon className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
+							<Input
+								type='search'
+								name='search'
+								id='search'
+								placeholder={t('menu:search')}
+								className='rounded-full px-0 pl-8'
+							/>
+						</div>
+
+						<div
+							className={`flex flex-col gap-2 ${open ? '' : 'items-center'}`}
+						>
 							{links.map((link, idx) => (
-								<SidebarLink key={idx} link={link} />
+								<SidebarLink key={idx} link={link} className='w-fit' />
 							))}
 						</div>
 					</div>
-					<div className='flex items-center justify-between'>
-						<SidebarLink
-							link={{
-								label: user?.displayName as string,
-								href: '#',
-								icon: (
-									<Image
-										src={user?.photoURL as string}
-										className='h-7 w-7 flex-shrink-0 rounded-full'
-										width={50}
-										height={50}
-										alt='Avatar'
-										aria-hidden
-									/>
-								),
-							}}
-						/>
+					<div className='flex items-end justify-between h-[70px] border-t border-brand-border'>
+						<div className='flex items-center justify-between w-full'>
+							<div className='flex items-center justify-start gap-x-3 py-2'>
+								<Image
+									src={user?.photoURL as string}
+									className='size-10 flex-shrink-0 rounded-full'
+									width={50}
+									height={50}
+									alt='Avatar'
+									aria-hidden
+								/>
 
-						<Button
-							variant='ghost'
-							onClick={signOutUser}
-							className={`${open ? 'flex' : 'hidden'}`}
-						>
-							<LogOut />
-						</Button>
+								<motion.span
+									animate={{
+										display: true
+											? open
+												? 'inline-block'
+												: 'none'
+											: 'inline-block',
+										opacity: open ? 1 : 0,
+									}}
+									className='text-neutral-700 dark:text-neutral-200 whitespace-pre inline-block !p-0 !m-0
+								font-bold text-base'
+								>
+									{user?.displayName}
+								</motion.span>
+							</div>
+
+							<Button
+								variant='ghost'
+								onClick={signOutUser}
+								className={`${open ? 'flex' : 'hidden'}`}
+							>
+								<LogOut />
+							</Button>
+						</div>
 					</div>
 				</SidebarBody>
 			</Sidebar>
