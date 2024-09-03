@@ -8,7 +8,7 @@ import { Button } from './ui/button'
 type SocialAuthButton = {
 	children: React.ReactNode
 	className?: string
-	signInMethod: () => Promise<UserCredential | undefined>
+	signInMethod: () => Promise<void>
 }
 
 export const SocialAuthButton = ({
@@ -16,10 +16,10 @@ export const SocialAuthButton = ({
 	className,
 	signInMethod,
 }: SocialAuthButton) => {
-	async function handleSignIn(): Promise<void> {
+	async function handleSignIn() {
 		try {
-			const userCredentials = await signInMethod()
-			const accessToken = await userCredentials?.user.getIdToken()
+			await signInMethod()
+			// const accessToken = await userCredentials?.user.getIdToken()
 		} catch (error: unknown) {
 			console.error(error)
 		}

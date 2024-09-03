@@ -1,9 +1,8 @@
 'use client'
 
-import { useMenu } from '@/hooks/useMenu'
+import { useUser } from '@/context/userContext'
 import { signOutUser } from '@/lib/firebase/authConfigs'
 import { useTranslation } from '@/lib/i18n/client'
-import { useAuthStore } from '@/store/auth'
 import { motion } from 'framer-motion'
 import {
 	ArrowRightCircle,
@@ -16,14 +15,17 @@ import {
 	X,
 } from 'lucide-react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Sidebar, SidebarBody, SidebarLink } from './ui/sidebar'
 
 export const Menu = ({ locale }: { locale: string }) => {
-	const { open, setOpen } = useMenu()
+	const [placeholder, setPlaceholder] = useState('')
+	const [open, setOpen] = useState(false)
 	const { t } = useTranslation(locale, 'menu')
-	const user = useAuthStore((state) => state.user)
+	const { user } = useUser()
 
 	const links = [
 		{
@@ -56,16 +58,18 @@ export const Menu = ({ locale }: { locale: string }) => {
 		},
 	]
 
+	useEffect(() => {
+		setPlaceholder(t('menu:search'))
+	}, [t, user?.displayName])
+
 	return (
 		<div
-			className='flex flex-col bg-white 
-      dark:bg-neutral-800 mx-auto overflow-hidden h-screen'
+			className='flex flex-col bg-white
+      dark:bg-neutral-800 mx-auto overflow-hidden w-full lg:w-fit h-16 lg:h-screen 
+			border-r border-brand-border'
 		>
 			<Sidebar open={open} setOpen={setOpen}>
-				<SidebarBody
-					className='justify-between gap-10 bg-white px-4 max-w-[300px]
-          border-r border-brand-border'
-				>
+				<SidebarBody className='justify-between gap-10 bg-white px-4 max-w-[300px]'>
 					<div className='flex flex-col flex-1 overflow-y-auto overflow-x-hidden gap-8'>
 						<div className='flex items-center justify-between'>
 							<motion.div
@@ -105,7 +109,7 @@ export const Menu = ({ locale }: { locale: string }) => {
 								type='search'
 								name='search'
 								id='search'
-								placeholder={t('menu:search')}
+								placeholder={placeholder || 'Search...'}
 								className='rounded-full px-0 pl-8'
 							/>
 						</div>
@@ -121,14 +125,14 @@ export const Menu = ({ locale }: { locale: string }) => {
 					<div className='flex items-end justify-between h-[70px] border-t border-brand-border'>
 						<div className='flex items-center justify-between w-full'>
 							<div className='flex items-center justify-start gap-x-3 py-2'>
-								<Image
-									src={user?.photoURL as string}
-									className='size-10 flex-shrink-0 rounded-full'
-									width={50}
-									height={50}
-									alt='Avatar'
-									aria-hidden
-								/>
+								<Avatar>
+									<AvatarImage
+										src={user?.photoURL as string}
+										className='size-10 flex-shrink-0 rounded-full'
+										aria-hidden
+									/>
+									<AvatarFallback>👤</AvatarFallback>
+								</Avatar>
 
 								<motion.span
 									animate={{

@@ -1,5 +1,6 @@
-import { auth } from '@/lib/firebase/authConfigs'
-import { User, onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged } from '@/lib/firebase/authConfigs'
+import { auth } from '@/lib/firebase/clientApp'
+import { User } from 'firebase/auth'
 import { create } from 'zustand'
 
 interface AuthState {
@@ -20,10 +21,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 	setError: (error) => set({ error, loading: false }),
 }))
 
-onAuthStateChanged(auth, (user) => {
-	if (user) {
-		useAuthStore.getState().setUser(user)
-	} else {
-		useAuthStore.getState().setUser(null)
-	}
-})
+// onAuthStateChanged(auth, (user) => {
+// 	if (user) {
+// 		useAuthStore.getState().setUser(user)
+// 	} else {
+// 		useAuthStore.getState().setUser(null)
+// 	}
+// })

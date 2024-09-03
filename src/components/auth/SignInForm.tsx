@@ -19,11 +19,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-	signInWithEmail,
-	signInWithFacebook,
-	signInWithGoogle,
-} from '@/lib/firebase/authConfigs'
+import { signInWithProvider } from '@/lib/firebase/authConfigs'
 import { SocialAuthButton } from '../SocialAuthButton'
 
 const formSchema = z.object({
@@ -46,14 +42,14 @@ export function SignInForm() {
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		signInWithEmail(values.email, values.password)
+		signInWithProvider('email', values.email, values.password)
 	}
 
 	return (
 		<>
 			<div className='flex lg:hidden items-center justify-between w-full gap-5 mt-[61px] mb-[52px]'>
 				<SocialAuthButton
-					signInMethod={signInWithGoogle}
+					signInMethod={() => signInWithProvider('google')}
 					className='bg-brand-100 text-brand-500 gap-3 px-[17px] text-xs w-[180.24px] h-[55px] ring-0'
 				>
 					<Image
@@ -68,7 +64,7 @@ export function SignInForm() {
 
 				<div className='flex gap-[13px]'>
 					<SocialAuthButton
-						signInMethod={signInWithFacebook}
+						signInMethod={() => signInWithProvider('facebook')}
 						className='w-[36.29px] px-2'
 					>
 						<Image
@@ -149,7 +145,7 @@ export function SignInForm() {
 
 				<div className='flex items-center justify-between w-full gap-5'>
 					<SocialAuthButton
-						signInMethod={signInWithGoogle}
+						signInMethod={() => signInWithProvider('google')}
 						className='bg-brand-100 text-brand-500 gap-5 w-full h-[55px] ring-0'
 					>
 						<Image
@@ -163,7 +159,9 @@ export function SignInForm() {
 					</SocialAuthButton>
 
 					<div className='flex gap-[13px]'>
-						<SocialAuthButton signInMethod={signInWithFacebook}>
+						<SocialAuthButton
+							signInMethod={() => signInWithProvider('facebook')}
+						>
 							<Image
 								src='/login/facebook-icon.svg'
 								width={29}

@@ -9,8 +9,13 @@ export const Header = ({ locale }: { locale: string }) => {
 	const { t } = useTranslation(locale, 'header')
 
 	return (
-		<header className='flex items-center justify-between w-full h-[104px] bg-brand-50 p-4'>
-			<h2 className='font-extrabold text-3xl'>{t('header:title')}</h2>
+		<header
+			className='flex flex-col lg:flex-row items-start lg:items-center justify-between 
+			gap-4 lg:gap-0 w-full h[136px] lg:h-[104px] bg-brand-50 p-4'
+		>
+			<h1 className='font-extrabold text-2xl lg:text-3xl'>
+				{t('header:title')}
+			</h1>
 
 			<div className='flex gap-2 items-center justify-center'>
 				<Button variant='ghost' className='size-10 p-0'>

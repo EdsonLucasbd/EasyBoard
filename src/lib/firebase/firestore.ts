@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase/firestore'
-import firebaseApp from './config'
+import { firebaseApp } from './clientApp'
 
 const db = getFirestore(firebaseApp)
 export default db

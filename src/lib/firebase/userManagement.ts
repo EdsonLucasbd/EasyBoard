@@ -2,9 +2,10 @@ import { arrayUnion, doc, getDoc, setDoc, updateDoc } from '@firebase/firestore'
 import { v4 as uuidv4 } from 'uuid'
 import db from './firestore'
 
-interface User {
+export interface UserData {
 	name: string
 	email: string
+	photoURL?: string
 	kanbanBoards: string[]
 	ownedBoards: string[]
 }
@@ -16,6 +17,23 @@ interface KanbanBoard {
 	lists: any[]
 	createdAt: Date
 	updatedAt: Date
+}
+
+export async function checkOwnedBoards(uid: string) {
+	const docRef = doc(db, 'users', uid)
+	const docSnap = await getDoc(docRef)
+
+	if (docSnap.exists()) {
+		const user = docSnap.data() as UserData
+
+		if (!user.ownedBoards || user.ownedBoards.length === 0) {
+			return false
+		} else {
+			return true
+		}
+	} else {
+		return false
+	}
 }
 
 async function createKanbanBoard(ownerId: string): Promise<string> {
@@ -37,12 +55,13 @@ async function createKanbanBoard(ownerId: string): Promise<string> {
 
 export async function createUserWithBoard(
 	uid: string,
-	userData: Omit<User, 'kanbanBoards' | 'ownedBoards'>,
+	userData: Omit<UserData, 'kanbanBoards' | 'ownedBoards'>,
 ) {
 	const boardId = await createKanbanBoard(uid)
 
 	const userRef = doc(db, 'users', uid)
-	const userDataWithBoard: User = {
+
+	const userDataWithBoard: UserData = {
 		...userData,
 		kanbanBoards: [boardId],
 		ownedBoards: [boardId],
@@ -51,18 +70,18 @@ export async function createUserWithBoard(
 	await setDoc(userRef, userDataWithBoard, { merge: true })
 }
 
-async function createUser(uid: string, userData: User) {
+async function createUser(uid: string, userData: UserData) {
 	const userRef = doc(db, 'users', uid)
 
 	await setDoc(userRef, userData, { merge: true })
 }
 
-export async function getUser(uid: string): Promise<User | null> {
+export async function getUser(uid: string): Promise<UserData | null> {
 	const userRef = doc(db, 'users', uid)
 	const userSnap = await getDoc(userRef)
 
 	if (userSnap.exists()) {
-		return userSnap.data() as User
+		return userSnap.data() as UserData
 	} else {
 		console.log('Usuário não encontrado')
 		return null
